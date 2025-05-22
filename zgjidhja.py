@@ -4,25 +4,43 @@ class Pearson(ABC):
     def __init__(self, name, age, weight, height):
         self.name = name
         self.age = age
-        self.weight = weight
-        self.height = height
+        self._weight =weight
+        self._height = height
 
+    @property
+    def weight(self):
+        return self._weight
+    @weight.setter
+    def weight(self, value):
+        if value < 0 :
+            raise ValueError("Weight smumet me qen 0 ose ma pak")
+        
+    @property
+    def height(self):
+        return self._height
+    
+    @height.setter
+    def height(self, value):
+        if value < 0 :
+            raise ValueError("Height smumet me qen 0 ose ma pak")
+        
     @abstractmethod
-    def calculate_bmi(self, weight, height, bmi):
-        self.bmi = bmi
-        bmi = weight/height**2
+    def calculate_bmi(self):
         pass
 
     @abstractmethod
-    def get_bmi_category (self, bmi, age):
+    def get_bmi_category(self):
         pass
 
     def print_info(self):
-        print(f"Name: {self.name}, Age: {self.age}, BMI: {self.calculate_bmi()}, Category: {self.get_bmi_category()}")
+        print(
+            f"Name:{self.name}, Age:{self.age}, Weight:{self._weight}, Height:{self.height}"
+            f"{self.calculate_bmi(), self.get_bmi_category()}"
+        )
 
 class Adult(Pearson):
     def calculate_bmi(self):
-        return self.weight/self.height**2
+        return self.weight/(self.height**2)
     
     def get_bmi_category(self):
         bmi = self.calculate_bmi()
@@ -37,7 +55,7 @@ class Adult(Pearson):
         
 class Child(Pearson):
     def calculate_bmi(self):
-        return self.weight/self.height**2*1.3
+        return (self.weight/(self.height**2))*1.3
     
     def get_bmi_category(self):
         bmi = self.calculate_bmi()
@@ -58,10 +76,10 @@ class BMIApp:
         self.people.append(pearson)
 
     def collect_user_data(self):
-        self.name = input("Enter name: ")
-        self.age = int(input("Enter age: "))
-        self.height = input("Enter height")
-        self.weight = input("Enter weight:")
+        name = input("Enter name: ")
+        age = int(input("Enter age: "))
+        height = float(input("Enter height"))
+        weight = float(input("Enter weight:"))
 
-    if age >= 18:
-        Pearson = A
+        if age >= 18:
+            pearson = Adult(name, age, weight, height)
